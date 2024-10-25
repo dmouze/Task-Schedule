@@ -1,5 +1,4 @@
 package com.dsw.pam.takschedule.view
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,22 +7,34 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dsw.pam.takschedule.intent.TaskIntent
 import com.dsw.pam.takschedule.model.Task
+import com.dsw.pam.takschedule.model.TaskState
 import com.dsw.pam.takschedule.viewmodel.TaskViewModel
 
 @Composable
 fun TaskScreen(viewModel: TaskViewModel) {
-    val taskList by viewModel.tasks.collectAsState()
+    val taskState by viewModel.state.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Lista Zadań", style = MaterialTheme.typography.titleLarge)
+    when (taskState) {
+        is TaskState.Loading -> Text("Ładowanie zadań...")
+        is TaskState.Error -> Text("Błąd: ${(taskState as TaskState.Error).message}")
+        is TaskState.Loaded -> {
+            val tasks = (taskState as TaskState.Loaded).tasks
+            TaskList(tasks = tasks, onTaskToggled = { taskId, isCompleted ->
+                viewModel.handleIntent(TaskIntent.ToggleTaskCompletion(taskId, isCompleted))
+            })
+        }
+    }
+}
 
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(taskList) { task ->
-                TaskItem(task = task, onCheckedChange = { isChecked ->
-                    viewModel.updateTaskCompletion(task.id, isChecked)
-                })
-            }
+@Composable
+fun TaskList(tasks: List<Task>, onTaskToggled: (Int, Boolean) -> Unit) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(tasks) { task ->
+            TaskItem(task = task, onCheckedChange = { isChecked ->
+                onTaskToggled(task.id, isChecked)
+            })
         }
     }
 }
@@ -47,3 +58,4 @@ fun TaskItem(task: Task, onCheckedChange: (Boolean) -> Unit) {
         )
     }
 }
+
