@@ -16,9 +16,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
+
 }
 
 rootProject.name = "Task Schedule"
 include(":app")
- 
+include(":app", ":app:test")
+include(":app:test")
