@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dsw.pam.takschedule.model.Task
-import com.dsw.pam.takschedule.viewmodel.TaskViewModel
+import com.dsw.pam.taskschedule.TaskViewModel
 
 @Composable
 fun TaskScreen(viewModel: TaskViewModel) {
@@ -47,3 +47,4 @@ fun TaskItem(task: Task, onCheckedChange: (Boolean) -> Unit) {
         )
     }
 }
+
