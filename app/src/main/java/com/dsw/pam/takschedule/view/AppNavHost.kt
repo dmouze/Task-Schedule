@@ -10,6 +10,7 @@ import com.example.test.TestScreen
 fun AppNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "main_screen") {
         composable("main_screen") { MainScreen(navController) }
+        composable("task_screen") { TaskScreen(navController) }
         composable("second_screen") { SecondScreen(navController) }
         composable("third_screen/{argument}") { backStackEntry ->
             val argument = backStackEntry.arguments?.getString("argument")

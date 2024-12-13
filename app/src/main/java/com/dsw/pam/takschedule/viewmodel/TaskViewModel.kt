@@ -2,43 +2,36 @@ package com.dsw.pam.taskschedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dsw.pam.takschedule.viewmodel.LocalDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
+import com.dsw.pam.takschedule.viewmodel.TaskState
+import com.dsw.pam.takschedule.viewmodel.TaskRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.dsw.pam.takschedule.model.Task
 
-class TaskViewModel : ViewModel() {
 
-    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
-    val tasks: StateFlow<List<Task>> = _tasks
+class TaskViewModel(
+    private val repository: TaskRepository,
+    private val localDataStore: LocalDataStore
+) : ViewModel() {
+
+    private val _state = MutableStateFlow<TaskState>(TaskState.Loading)
+    val state: StateFlow<TaskState> = _state
 
     init {
-        // Przykładowe zadania
-        _tasks.value = listOf(
-            Task(1, "Zadanie 1"),
-            Task(2, "Zadanie 2"),
-            Task(3, "Zadanie 3")
-        )
+        loadTasks()
     }
 
-    // Funkcja do aktualizacji stanu ukończenia zadania
-    fun updateTaskCompletion(taskId: Int, isCompleted: Boolean) {
+    private fun loadTasks() {
         viewModelScope.launch {
-            _tasks.value = _tasks.value.map {
-                if (it.id == taskId) {
-                    it.copy(isCompleted = isCompleted)
-                } else {
-                    it
-                }
-            }
+            val tasks = repository.getTasks()
+            val taskCount = tasks.size
+            localDataStore.saveTaskCount(taskCount)
+            _state.value = TaskState.Loaded(tasks)
         }
     }
 
-    // Funkcja do dodawania nowego zadania
-    fun addTask(title: String) {
-        val newTask = Task(id = _tasks.value.size + 1, title = title)
-        viewModelScope.launch {
-            _tasks.value = _tasks.value + newTask
-        }
+    fun getSavedTaskCount(): Int {
+        return localDataStore.getTaskCount()
     }
 }

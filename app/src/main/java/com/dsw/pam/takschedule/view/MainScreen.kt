@@ -19,5 +19,8 @@ fun MainScreen(navController: NavController) {
         Button(onClick = { navController.navigate("test_screen") }) {
             Text("Przejdź do ekranu z modułu Test")
         }
+        Button(onClick = { navController.navigate("task_screen") }) {
+            Text("Przejdź do Task Screen")
+        }
     }
 }
