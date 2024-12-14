@@ -9,6 +9,13 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxSerializationJson = "1.6.3"
+ktorClientAndroid = "2.3.1"
+ktorClientCio = "2.1.0"
+ktorClientContentNegotiation = "2.3.1"
+ktorClientCore = "2.3.1"
+ktorClientJson = "2.3.1"
+ktorClientSerialization = "2.3.1"
 lifecycleRuntimeKtx = "2.8.4"
 activityCompose = "1.9.1"
 composeBom = "2024.04.01"
@@ -17,6 +24,7 @@ lifecycleViewmodelCompose = "2.6.1"
 material3 = "1.5.1"
 navigationCompose = "2.8.4" # Dodanie wersji dla Koin Compose
 navigationComposeVersion = "2.6.0"
+retrofit = "2.9.0"
 storage = "1.5.0"
 material3Android = "1.3.1"
 navigationRuntimeKtx = "2.8.4"
@@ -26,6 +34,7 @@ uiTooling = "1.5.1"
 uiToolingPreviewAndroid = "1.7.5"
 foundationLayoutAndroid = "1.7.2"
 firebaseStorageKtx = "21.0.1"
+playServicesBasement = "18.0.0"
 
 [libraries]
 androidx-activity-compose-v172 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
@@ -56,10 +65,20 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
+ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientJson" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorClientSerialization" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientSerialization" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+play-services-basement = { group = "com.google.android.gms", name = "play-services-basement", version.ref = "playServicesBasement" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

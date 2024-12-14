@@ -1,37 +1,32 @@
-package com.dsw.pam.taskschedule
+package com.dsw.pam.takschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsw.pam.takschedule.viewmodel.LocalDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
-import com.dsw.pam.takschedule.viewmodel.TaskState
-import com.dsw.pam.takschedule.viewmodel.TaskRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import com.dsw.pam.takschedule.model.Task
+import com.dsw.pam.takschedule.viewmodel.network.TaskApiService
 
 
-class TaskViewModel(
-    private val repository: TaskRepository,
-    private val localDataStore: LocalDataStore
-) : ViewModel() {
+class TaskViewModel(private val taskRepository: TaskRepository) : ViewModel() {
 
-    private val _state = MutableStateFlow<TaskState>(TaskState.Loading)
-    val state: StateFlow<TaskState> = _state
+    // Inicjalizacja listy zadań
+    val tasks = mutableListOf<Task>()
 
-    init {
-        loadTasks()
-    }
-
-    private fun loadTasks() {
+    // Pobierz zadania
+    fun fetchTasks() {
         viewModelScope.launch {
-            val tasks = repository.getTasks()
-            val taskCount = tasks.size
-            localDataStore.saveTaskCount(taskCount)
-            _state.value = TaskState.Loaded(tasks)
+            tasks.clear()
+            tasks.addAll(taskRepository.fetchTasks())
         }
     }
 
-    fun getSavedTaskCount(): Int {
-        return localDataStore.getTaskCount()
+    // Dodaj nowe zadanie
+    fun addTask(task: Task) {
+        viewModelScope.launch {
+            val newTask = taskRepository.createTask(task)
+            tasks.add(newTask) // Dodaj nowe zadanie do listy
+        }
     }
 }

@@ -1,15 +1,12 @@
 package com.dsw.pam.takschedule.viewmodel.DI
 
-import com.dsw.pam.takschedule.viewmodel.LocalDataStore
-import com.dsw.pam.takschedule.viewmodel.SharedPreferencesDataStore
-import com.dsw.pam.takschedule.viewmodel.TaskRepository
-import com.dsw.pam.taskschedule.TaskViewModel
+import com.dsw.pam.takschedule.viewmodel.TaskViewModel
+import com.dsw.pam.takschedule.viewmodel.network.TaskApiService
+import com.dsw.pam.takschedule.viewmodel.network.TaskApiServiceImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
 val appModule = module {
-    single<LocalDataStore> { SharedPreferencesDataStore(get()) } // Wstrzyknięcie implementacji magazynu
-    single { TaskRepository() }
-    viewModel { TaskViewModel(get(), get()) }
+    single<TaskApiService> { TaskApiServiceImpl(get()) }
+    viewModel { TaskViewModel(get()) }
 }
